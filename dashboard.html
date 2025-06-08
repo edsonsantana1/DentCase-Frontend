@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Casos - Sistema Odonto-Legal</title>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" 
+        rel="stylesheet" />
+
+  <!-- Scripts -->
+ 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-box-and-violin-plot@7.4.0/build/Chart.BoxPlot.min.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="js/dashboard.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-placeholder">
+        <img src="imag/logo2.png" alt="Login Imagem" class="logo"/>
+      </div>
+    </div>
+
+    <!-- Menu de Navegação -->
+    <nav class="sidebar-menu">
+      <a href="dashboard.html" class="active">
+        <span class="material-symbols-outlined">bar_chart</span> Dashboard
+      </a>
+      <a href="list-case.html">
+        <span class="material-symbols-outlined">folder</span> Casos
+      </a>
+      <a href="usuarios.html">
+        <span class="material-symbols-outlined">group</span> Gerenciamento de Usuários
+      </a>
+      <a href="index.html">
+        <span class="material-symbols-outlined">logout</span> Sair
+      </a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <h1 class="dashboard-title">Dashboard</h1>
+
+    <section class="dashboard-wrapper">
+     
+      <div class="chart-container">
+        <h3>Distribuição Temporal dos Casos</h3>
+        <canvas id="temporalChartDistribuicao"></canvas> <!-- esse é o que seu JS usa -->
+      </div>
+
+      <div class="chart-container">
+        <h3>Previsão de Casos (Regressão)</h3>
+        <canvas id="regressaoChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Vítimas por Faixa Etária</h3>
+        <canvas id="faixaEtariaChart"></canvas>
+      </div>
+
+      <div class="chart-container">
+        <h3>Gênero por Tipo de Ocorrência</h3>
+        <canvas id="generoTipoChart"></canvas>
+      </div>
+
+      <div class="chart-container">
+        <h3>Casos por Bairro</h3>
+        <p id="totalCasosBairro" style="font-weight: bold; margin-top: 10px;"></p>
+        <canvas id="bairroChart"></canvas>
+      </div>
+
+      <div class="chart-container">
+        <h3>Vítimas Identificadas vs Não Identificadas</h3>
+        <canvas id="identificacaoChart"></canvas>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

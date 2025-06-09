@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', async function () {
   const API_BASE_URL = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
     ? 'http://localhost:3000'
-    : 'https://laudos-pericias.onrender.com';
+    : 'https://dentcase-backend.onrender.com';
 
 
 // Vítimas por Faixa Etária 3
@@ -227,7 +227,7 @@ window.addEventListener('DOMContentLoaded', async function () {
   async function renderIdentificacaoRegressaoChart() {
     const API_BASE_URL = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
       ? 'http://localhost:3000'
-      : 'https://laudos-pericias.onrender.com';
+      : 'https://dentcase-backend.onrender.com';
   
     try {
       const res = await fetch(`${API_BASE_URL}/api/dashboard/identificacao-regressao`);
@@ -291,7 +291,7 @@ window.addEventListener('DOMContentLoaded', async function () {
   async function renderDistribuicaoTemporalChart() {
     const API_BASE_URL = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
       ? 'http://localhost:3000'
-      : 'https://laudos-pericias.onrender.com';
+      : 'https://dentcase-backend.onrender.com';
   
     try {
       const res = await fetch(`${API_BASE_URL}/api/dashboard/distribuicao-temporal`);

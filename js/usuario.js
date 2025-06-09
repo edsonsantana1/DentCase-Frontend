@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:3000/api/users';
+const apiUrl = 'https://dentcase-backend.onrender.com/api/users';
 const usersContainer = document.getElementById('users-list-container');
 const userForm = document.getElementById('userForm');
 const modal = document.getElementById('userModal');

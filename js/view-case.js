@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const API_BASE_URL = 'http://localhost:3000/api';
+  const API_BASE_URL = 'https://dentcase-backend.onrender.com/api';
   
   // Função utilitária para pegar elementos com segurança
   function getElementSafe(id) {
@@ -700,7 +700,7 @@ async function changeStatus() {
   }
 
   try {
-    const response = await fetch(`http://localhost:3000/api/cases/${caseId}/status`, {
+    const response = await fetch(`https://dentcase-backend.onrender.com/api/cases/${caseId}/status`, {
       method: 'PUT',
       headers: { 
         'Content-Type': 'application/json',

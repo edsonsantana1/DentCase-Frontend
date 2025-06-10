@@ -294,7 +294,7 @@ window.addEventListener('DOMContentLoaded', async function () {
       : 'https://dentcase-backend.onrender.com';
   
     try {
-      const res = await fetch(`${API_BASE_URL}/api/dashboard/distribuicao-temporal`);
+      const res = await fetch(`${API_BASE_URL}/temporalDistribuicao`);
       const data = await res.json();
   
       console.log("Dados da API (Distribuição Temporal):", data);

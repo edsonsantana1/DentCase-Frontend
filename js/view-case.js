@@ -480,14 +480,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const generateReportBtn = getElementSafe('generate-report');
   const reportForm = getElementSafe('report-form');
   
-  // Abrir modal de geração de relatório
   if (generateReportBtn && reportModal) {
     generateReportBtn.addEventListener('click', () => {
       reportModal.style.display = 'block';
     });
   }
   
-  // Submissão do formulário de relatório
   if (reportForm) {
     reportForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -498,39 +496,52 @@ document.addEventListener('DOMContentLoaded', () => {
       const width = doc.internal.pageSize.getWidth();
       let y = 20;
   
-      // Título e observações do formulário
-      const title = getElementSafe('report-title')?.value.toUpperCase() || 'RELATÓRIO DO CASO';
+      const title = getElementSafe('report-title')?.value.toUpperCase() || 'RELATÓRIO PERICIAL ODONTOLÓGICO';
       const notes = getElementSafe('report-notes')?.value || '';
   
-      // Função auxiliar para obter textos de forma segura
       const safeGetText = (id) => {
         const el = getElementSafe(id);
         return el?.textContent?.trim() || 'Não informado';
       };
   
-      // Função para adicionar campo ao PDF
+      const drawLine = () => {
+        y += 2;
+        doc.setDrawColor(100);
+        doc.line(margin, y, width - margin, y);
+        y += 6;
+      };
+  
+      const addSectionTitle = (label) => {
+        doc.setFont(undefined, 'bold');
+        doc.setFontSize(13);
+        doc.text(label, margin, y);
+        y += 6;
+        drawLine();
+        doc.setFont(undefined, 'normal');
+        doc.setFontSize(12);
+      };
+  
       const addField = (label, value) => {
         doc.setFont(undefined, 'bold');
         doc.text(`${label}:`, margin, y);
-  
         doc.setFont(undefined, 'normal');
-        const safeValue = value || 'Não informado';
-        const lines = doc.splitTextToSize(safeValue, width - margin - 40);
-  
+        const text = value || 'Não informado';
+        const lines = doc.splitTextToSize(text, width - margin - 40);
         lines.forEach((line, i) => {
           doc.text(line, margin + 40, y + (i * 7));
         });
-  
         y += (lines.length * 7) + 4;
       };
   
-      // Cabeçalho
-      doc.setFontSize(22);
+      // TÍTULO
+      doc.setFontSize(18);
+      doc.setFont(undefined, 'bold');
       doc.text(title, width / 2, y, { align: 'center' });
-      y += 12;
-      doc.setFontSize(12);
+      y += 10;
+      drawLine();
   
-      // Campos do relatório
+      // INFORMAÇÕES DO CASO
+      addSectionTitle('INFORMAÇÕES DO CASO');
       addField('ID DO CASO', safeGetText('case-id'));
       addField('TÍTULO', safeGetText('case-title'));
       addField('STATUS', safeGetText('case-status'));
@@ -538,60 +549,46 @@ document.addEventListener('DOMContentLoaded', () => {
       addField('DATA DE CRIAÇÃO', safeGetText('case-date'));
       addField('RESPONSÁVEL', safeGetText('case-responsible'));
   
-      y += 6;
-      doc.setFont(undefined, 'bold');
-      doc.text('INFORMAÇÕES DO PACIENTE', margin, y);
-      y += 8;
-      doc.setFont(undefined, 'normal');
-  
+      // INFORMAÇÕES DO PACIENTE
+      addSectionTitle('INFORMAÇÕES DO PACIENTE');
       addField('Nome', safeGetText('patient-name'));
       addField('Data de Nascimento', safeGetText('patient-dob'));
       addField('Gênero', safeGetText('patient-gender'));
       addField('Documento', safeGetText('patient-doc'));
       addField('Contato', safeGetText('patient-contact'));
   
-      y += 6;
-      doc.setFont(undefined, 'bold');
-      doc.text('INFORMAÇÕES DO INCIDENTE', margin, y);
-      y += 8;
-      doc.setFont(undefined, 'normal');
-  
+      // INFORMAÇÕES DO INCIDENTE
+      addSectionTitle('INFORMAÇÕES DO INCIDENTE');
       addField('Data', safeGetText('incident-date'));
       addField('Local', safeGetText('incident-location'));
       addField('Descrição', safeGetText('incident-description'));
       addField('Instrumento/Arma', safeGetText('incident-weapon'));
   
-      // Observações finais
+      // OBSERVAÇÕES ADICIONAIS
       if (notes) {
-        y += 10;
-        doc.setFont(undefined, 'bold');
-        doc.text('OBSERVAÇÕES ADICIONAIS:', margin, y);
-        y += 8;
-        doc.setFont(undefined, 'normal');
-  
+        addSectionTitle('OBSERVAÇÕES ADICIONAIS');
         const noteLines = doc.splitTextToSize(notes, width - margin * 2);
         noteLines.forEach((line, i) => {
           doc.text(line, margin, y + (i * 7));
         });
-  
         y += (noteLines.length * 7);
       }
   
       // Rodapé
+      y += 10;
       const generatedDate = new Date().toLocaleString('pt-BR');
-      y += 12;
       doc.setFont(undefined, 'italic');
+      doc.setFontSize(10);
       doc.text(`Gerado em: ${generatedDate}`, margin, y);
   
-      // Nome do arquivo e salvamento
       const caseId = safeGetText('case-id').replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
       doc.save(`relatorio_caso_${caseId}.pdf`);
   
-      // Fechar modal e limpar formulário
       if (reportModal) reportModal.style.display = 'none';
       reportForm.reset();
     });
   }
+  
   
 
   // Inicialização

@@ -496,7 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const width = doc.internal.pageSize.getWidth();
       let y = 20;
   
-      const title = getElementSafe('report-title')?.value?.trim() || 'RELATÓRIO PERICIAL ODONTOLÓGICO';
+      const title = getElementSafe('report-title')?.value.toUpperCase() || 'RELATÓRIO PERICIAL ODONTOLÓGICO';
       const notes = getElementSafe('report-notes')?.value || '';
   
       const safeGetText = (id) => {
@@ -533,24 +533,21 @@ document.addEventListener('DOMContentLoaded', () => {
         y += (lines.length * 7) + 4;
       };
   
-      // TÍTULO DINÂMICO
-      doc.setFontSize(16);
+      // TÍTULO
+      doc.setFontSize(18);
       doc.setFont(undefined, 'bold');
-      doc.text(title.toUpperCase(), width / 2, y, { align: 'center' });
+      doc.text(title, width / 2, y, { align: 'center' });
       y += 10;
-      drawLine();
-  
-      // ID, TÍTULO, STATUS
-      addField('ID DO CASO', safeGetText('case-id'));
-      addField('TÍTULO', safeGetText('case-title'));
-      addField('STATUS', safeGetText('case-status'));
       drawLine();
   
       // INFORMAÇÕES DO CASO
       addSectionTitle('INFORMAÇÕES DO CASO');
-      addField('Descrição', safeGetText('case-description'));
-      addField('Data de Criação', safeGetText('case-date'));
-      addField('Responsável', safeGetText('case-responsible'));
+      addField('ID DO CASO', safeGetText('case-id'));
+      addField('TÍTULO', safeGetText('case-title'));
+      addField('STATUS', safeGetText('case-status'));
+      addField('DESCRIÇÃO', safeGetText('case-description'));
+      addField('DATA DE CRIAÇÃO', safeGetText('case-date'));
+      addField('RESPONSÁVEL', safeGetText('case-responsible'));
   
       // INFORMAÇÕES DO PACIENTE
       addSectionTitle('INFORMAÇÕES DO PACIENTE');
@@ -574,11 +571,11 @@ document.addEventListener('DOMContentLoaded', () => {
         noteLines.forEach((line, i) => {
           doc.text(line, margin, y + (i * 7));
         });
-        y += (noteLines.length * 7) + 4;
+        y += (noteLines.length * 7);
       }
   
-      // RODAPÉ
-      drawLine();
+      // Rodapé
+      y += 10;
       const generatedDate = new Date().toLocaleString('pt-BR');
       doc.setFont(undefined, 'italic');
       doc.setFontSize(10);
@@ -591,7 +588,6 @@ document.addEventListener('DOMContentLoaded', () => {
       reportForm.reset();
     });
   }
-  
   
   
 

@@ -477,77 +477,129 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Gerar Relatório Geral
-  const generateReportBtn = getElementSafe('generate-report');
-  const reportForm = getElementSafe('report-form');
+  function generateCaseReportPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    // Configurações
+    const margin = 15;
+    const width = doc.internal.pageSize.getWidth();
+    let y = 20; // Posição vertical inicial
   
-  if (generateReportBtn && reportModal) {
-    generateReportBtn.addEventListener('click', () => {
-      reportModal.style.display = 'block';
-    });
+    // Dados do caso (substitua pelos dados reais)
+    const caseData = {
+      caseId: "#CASO-7891",
+      title: "Carlos Eduardo Pereira - Vítima sofreu agressão durante tentativa de roubo...",
+      status: "em andamento",
+      description: `Vítima foi atacada por um grupo durante uma tentativa de roubo em um estacionamento comercial. Durante a agressão, sofreu impactos severos no rosto e mandíbula, resultando em:\n\n- Fratura da maxila\n- Avulsão de 3 dentes\n- Laceração na gengiva\n\nA vítima foi socorrida e encaminhada ao hospital para avaliação médica e posterior perícia odontológica legal.`,
+      creationDate: "02/06/2025",
+      responsible: "Responsável não informado",
+      patientName: "Carlos Eduardo Pereira",
+      patientBirth: "04/06/1985",
+      patientGender: "masculino",
+      patientDocument: "987654321",
+      incidentDate: "02/03/2025, 20:15:00",
+      incidentLocation: "Shopping Norte Paulista",
+      incidentDescription: "Vítima sofreu agressão durante tentativa de roubo. Suspeitos não identificados.",
+      weapon: "Não informado"
+    };
+  
+    // Estilo do título principal
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(22);
+    doc.text("RELATÓRIO DO CASO", width / 2, y, { align: 'center' });
+    y += 10;
+  
+    // ID do Caso
+    doc.setFontSize(12);
+    doc.text(`ID DO CASO: ${caseData.caseId}`, margin, y);
+    y += 7;
+  
+    // Título
+    doc.text(`TÍTULO: ${caseData.title}`, margin, y);
+    y += 7;
+  
+    // Status
+    doc.text(`STATUS: ${caseData.status}`, margin, y);
+    y += 15;
+  
+    // Seção INFORMAÇÕES DO CASO
+    doc.setFontSize(14);
+    doc.text("INFORMAÇÕES DO CASO", margin, y);
+    y += 10;
+  
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    
+    // Descrição com formatação
+    const descLines = doc.splitTextToSize(caseData.description, width - margin * 2);
+    doc.text(descLines, margin, y);
+    y += (descLines.length * 7) + 5;
+  
+    doc.text(`Data de Criação: ${caseData.creationDate}`, margin, y);
+    y += 7;
+    doc.text(`Responsável: ${caseData.responsible}`, margin, y);
+    y += 15;
+  
+    // Seção INFORMAÇÕES DO PACIENTE
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("INFORMAÇÕES DO PACIENTE", margin, y);
+    y += 10;
+  
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Nome: ${caseData.patientName}`, margin, y);
+    y += 7;
+    doc.text(`Data de Nascimento: ${caseData.patientBirth}`, margin, y);
+    y += 7;
+    doc.text(`Gênero: ${caseData.patientGender}`, margin, y);
+    y += 7;
+    doc.text(`Documento: ${caseData.patientDocument}`, margin, y);
+    y += 15;
+  
+    // Seção INFORMAÇÕES DO INCIDENTE
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("INFORMAÇÕES DO INCIDENTE", margin, y);
+    y += 10;
+  
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Data: ${caseData.incidentDate}`, margin, y);
+    y += 7;
+    doc.text(`Local: ${caseData.incidentLocation}`, margin, y);
+    y += 7;
+    
+    const incidentLines = doc.splitTextToSize(caseData.incidentDescription, width - margin * 2);
+    doc.text(incidentLines, margin, y);
+    y += (incidentLines.length * 7) + 5;
+    
+    doc.text(`Instrumento/Arma: ${caseData.weapon}`, margin, y);
+    y += 15;
+  
+    // Seção OBSERVAÇÕES ADICIONAIS
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("OBSERVAÇÕES ADICIONAIS", margin, y);
+    y += 10;
+  
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text("Não há observações adicionais.", margin, y);
+  
+    // Salvar o PDF
+    doc.save(`relatorio_caso_${caseData.caseId}.pdf`);
   }
   
-  if (reportForm) {
-    reportForm.addEventListener('submit', e => {
-      e.preventDefault();
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      let y = 20;
-      const margin = 15;
-      const width = doc.internal.pageSize.getWidth();
-
-      const title = getElementSafe('report-title')?.value.toUpperCase() || 'RELATÓRIO DO CASO';
-      const notes = getElementSafe('report-notes')?.value || '';
-
-      doc.setFontSize(22);
-      doc.text(title, width / 2, y, { align: 'center' });
-      y += 10;
-      doc.setFontSize(12);
-
-      const safeGetText = (id) => {
-        const el = getElementSafe(id);
-        return el ? el.textContent : 'Não informado';
-      };
-
-      const addField = (label, value) => {
-        doc.setFont(undefined, 'bold'); 
-        doc.text(`${label}:`, margin, y);
-        doc.setFont(undefined, 'normal');
-        
-        const safeValue = value || 'Não informado';
-        const lines = doc.splitTextToSize(safeValue, width - margin - 40);
-        
-        lines.forEach((line, i) => {
-          doc.text(line, margin + 40, y + (i * 7));
-        });
-        
-        y += (lines.length * 7) + 4;
-      };
-
-      addField('ID DO CASO', safeGetText('case-id'));
-      addField('TÍTULO', safeGetText('case-title'));
-      addField('DESCRIÇÃO', safeGetText('case-description'));
-      addField('PACIENTE', safeGetText('patient-name'));
-      addField('INCIDENTE', safeGetText('incident-description'));
-
-      if (notes) {
-        y += 10;
-        doc.setFont(undefined, 'bold'); 
-        doc.text('OBSERVAÇÕES:', margin, y);
-        y += 8;
-        doc.setFont(undefined, 'normal');
-        const noteLines = doc.splitTextToSize(notes, width - margin * 2);
-        noteLines.forEach((line, i) => {
-          doc.text(line, margin, y + (i * 7));
-        });
-      }
-
-      doc.save(`relatorio_caso_${caseId}.pdf`);
-      if (reportModal) reportModal.style.display = 'none';
-      reportForm.reset();
-    });
-  }
-
+  // Como usar:
+  // 1. Inclua a biblioteca jsPDF no seu HTML:
+  // <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  // 2. Chame a função quando precisar gerar o relatório:
+  // generateCaseReportPDF();
   // Inicialização
+
+  
   setupUI();
   loadCaseDetails();
 });

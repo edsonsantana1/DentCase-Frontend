@@ -51,15 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Mapa de estados (invertido para busca por nome)
+  // Mapa de estados (código para nome)
   const estadosMap = {
-    'Rondônia': 11, 'Acre': 12, 'Amazonas': 13, 'Roraima': 14, 'Pará': 15,
-    'Amapá': 16, 'Tocantins': 17, 'Maranhão': 21, 'Piauí': 22, 'Ceará': 23,
-    'Rio Grande do Norte': 24, 'Paraíba': 25, 'Pernambuco': 26, 'Alagoas': 27,
-    'Sergipe': 28, 'Bahia': 29, 'Minas Gerais': 31, 'Espírito Santo': 32,
-    'Rio de Janeiro': 33, 'São Paulo': 35, 'Paraná': 41, 'Santa Catarina': 42,
-    'Rio Grande do Sul': 43, 'Mato Grosso do Sul': 50, 'Mato Grosso': 51,
-    'Goiás': 52, 'Distrito Federal': 53
+    11: 'Rondônia', 12: 'Acre', 13: 'Amazonas', 14: 'Roraima', 15: 'Pará',
+    16: 'Amapá', 17: 'Tocantins', 21: 'Maranhão', 22: 'Piauí', 23: 'Ceará',
+    24: 'Rio Grande do Norte', 25: 'Paraíba', 26: 'Pernambuco', 27: 'Alagoas',
+    28: 'Sergipe', 29: 'Bahia', 31: 'Minas Gerais', 32: 'Espírito Santo',
+    33: 'Rio de Janeiro', 35: 'São Paulo', 41: 'Paraná', 42: 'Santa Catarina',
+    43: 'Rio Grande do Sul', 50: 'Mato Grosso do Sul', 51: 'Mato Grosso',
+    52: 'Goiás', 53: 'Distrito Federal'
   };
 
   // Permissões de UI
@@ -152,8 +152,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Estado: converter código para nome
       const estadoCode = c.estado;
-      const estadoName = Object.keys(estadosMap).find(key => estadosMap[key] === estadoCode);
-      safeSetText('estado', estadoName || 'Não informado');
+      const estadoName = estadosMap[estadoCode] || 'Não informado';
+      safeSetText('estado', estadoName);
       
       safeSetText('bairro', c.bairro || 'Não informado');
       safeSetText('case-type', c.caseType || 'Não informado');
@@ -197,10 +197,11 @@ document.addEventListener('DOMContentLoaded', () => {
     safeSetValue('edit-incident-description', c.incidentDescription || '');
     safeSetValue('edit-incident-weapon', c.incidentWeapon || '');
 
-    // Estado: converter código para nome
-    const estadoCode = c.estado;
-    const estadoName = Object.keys(estadosMap).find(key => estadosMap[key] === estadoCode);
-    safeSetValue('edit-estado', estadoName || '');
+    // Estado: selecionar no dropdown
+    const estadoSelect = getElementSafe('edit-estado');
+    if (estadoSelect) {
+      estadoSelect.value = c.estado || '';
+    }
     
     safeSetValue('edit-bairro', c.bairro || '');
     safeSetValue('edit-case-type', c.caseType || '');
@@ -237,10 +238,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return el ? el.value : '';
       };
       
-      // Converter nome do estado para código
-      const estadoName = getValue('edit-estado');
-      const estadoCode = estadosMap[estadoName] || '';
-      
       const updated = {
         description: getValue('edit-case-description'),
         status: statusSelect ? statusSelect.value.replace(/_/g, ' ') : 'aberto',
@@ -254,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
         incidentLocation: getValue('edit-incident-location'),
         incidentDescription: getValue('edit-incident-description'),
         incidentWeapon: getValue('edit-incident-weapon'),
-        estado: estadoCode,
+        estado: getValue('edit-estado'),
         bairro: getValue('edit-bairro'),
         caseType: getValue('edit-case-type'),
         identified: !!getElementSafe('edit-identified')?.checked,
@@ -588,8 +585,6 @@ document.addEventListener('DOMContentLoaded', () => {
       reportForm.reset();
     });
   }
-  
-  
 
   // Inicialização
   setupUI();

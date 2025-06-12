@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Usuários - Sistema Odonto-Legal</title>
-  <link rel="stylesheet" href="css/style.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
-  <link rel="icon" sizes="192x192" href="imag/192.png"/>
-  <link rel="icon" sizes="512x512" href="imag/512.png"/>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="icon" sizes="192x192" href="imag/192.png" />
+  <link rel="icon" sizes="512x512" href="imag/512.png" />
 </head>
+
 <body>
   <button class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></button>
 
   <aside class="sidebar">
     <div class="sidebar-header">
       <div class="logo-placeholder">
-        <img src="imag/logo2.png" alt="Login Imagem" class="logo"/>
+        <img src="imag/logo2.png" alt="Login Imagem" class="logo" />
       </div>
     </div>
     <a href="dashboard.html"><span class="material-symbols-outlined">home</span> Página Inicial</a>
     <a href="list-case.html"><span class="material-symbols-outlined">folder</span> Casos</a>
-    <a href="usuarios.html" class="active"><span class="material-symbols-outlined">group</span> Gerenciamento de Usuários</a>
+    <a href="usuarios.html" class="active"><span class="material-symbols-outlined">group</span> Gerenciamento de
+      Usuários</a>
     <a href="index.html"><span class="material-symbols-outlined">logout</span> Sair</a>
   </aside>
 
@@ -34,7 +37,7 @@
     <div class="container">
       <header class="list-header">
         <div class="search-box">
-          <input type="text" id="search-user" placeholder="Buscar por matrícula ou nome...">
+          <input type="text" id="search-user" placeholder="Buscar por nome, email ou matrícula...">
           <button class="btn btn-search"><i class="fas fa-search"></i></button>
         </div>
         <button class="btn btn-primary" onclick="openUserModal('new')">
@@ -52,7 +55,6 @@
             <option value="assistente">Assistente</option>
           </select>
         </div>
-
         <div class="filter-group">
           <label for="filter-date">Ordenar por:</label>
           <select id="filter-date">
@@ -63,7 +65,7 @@
       </div>
 
       <div class="users-list-container" id="users-list-container">
-        <!-- Conteúdo dinâmico gerado por JavaScript -->
+        <!-- Conteúdo dinâmico via JS -->
       </div>
 
       <div class="pagination">
@@ -74,43 +76,42 @@
     </div>
   </div>
 
-  <!-- Modal de usuário -->
+  <!-- Modal de Usuário -->
   <div id="userModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeUserModal()">&times;</span>
-      <h2 id="modalTitle">Editar Usuário</h2>
-
+      <h2 id="modalTitle">Novo Usuário</h2>
       <form id="userForm">
         <input type="hidden" id="userId" />
-        <div class="form-row">
-          <div class="form-group">
-            <label for="userRole">Tipo de Usuário</label>
-            <select id="userRole" required>
-              <option value="administrador">Administrador</option>
-              <option value="perito">Perito</option>
-              <option value="assistente">Assistente</option>
-            </select>
-          </div>
+
+        <div class="form-group">
+          <label for="userRole">Tipo de Usuário *</label>
+          <select id="userRole" required>
+            <option value="administrador">Administrador</option>
+            <option value="perito">Perito</option>
+            <option value="assistente">Assistente</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="userName">Nome Completo *</label>
+          <input type="text" id="userName" required />
+        </div>
+
+        <div class="form-group">
+          <label for="userEmail">E-mail *</label>
+          <input type="email" id="userEmail" required />
+        </div>
+
+        <div class="form-group">
+          <label for="userMatricula">Matrícula <small>(não editável)</small></label>
+          <input type="text" id="userMatricula" required placeholder="Gerada automaticamente" readonly />
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label for="userName">Nome Completo</label>
-            <input type="text" id="userName" required />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="userEmail">E-mail</label>
-            <input type="email" id="userEmail" required />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="userPassword">Senha</label>
-            <input type="password" id="userPassword" placeholder="Deixe em branco para manter a atual" />
+            <label for="userPassword">Senha <small>(* obrigatório para novo)</small></label>
+            <input type="password" id="userPassword" placeholder="Nova senha (em branco para manter)" />
           </div>
           <div class="form-group">
             <label for="userConfirmPassword">Confirmar Senha</label>
@@ -129,4 +130,5 @@
 
   <script src="js/usuario.js"></script>
 </body>
+
 </html>

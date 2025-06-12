@@ -1,9 +1,5 @@
 # DentCase - Sistema de Gerenciamento de Casos Odonto-Legais
 
-![GitHub stars](https://img.shields.io/github/stars/seu-usuario/dentcase?style=social)
-![GitHub issues](https://img.shields.io/github/issues/seu-usuario/dentcase)
-![GitHub license](https://img.shields.io/github/license/seu-usuario/dentcase)
-
 DentCase é uma aplicação web desenvolvida para gestão de casos e evidências em perícias odontolegais. O sistema auxilia profissionais na organização, análise e documentação de casos forenses com interface intuitiva e controle de acesso robusto.
 
 ## 🚀 Funcionalidades Principais
@@ -102,6 +98,47 @@ Abra um Pull Request
 📄 Licença
 Este projeto está licenciado sob a MIT License.
 
-Equipe desenvolvimento: https://github.com/edsonsantana1, https://github.com/Juliana162702, https://github.com/Nyckjeni, © 2023 - Todos os direitos reservado
-git clone https://github.com/edsonsantana1/DentCase-Frontend.git
-cd DentCase-Frontend
+## 🤝 Equipe de Desenvolvimento
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Nyckjeni">
+        <img src="https://github.com/Nyckjeni.png" width="100px;" alt="Nyckjeni"/>
+        <br />
+        <sub><b>Nyckjeni</b></sub>
+      </a>
+      <br />
+      <sub>Desenvolvedora Frontend</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Paty1412">
+        <img src="https://github.com/Paty1412.png" width="100px;" alt="Paty1412"/>
+        <br />
+        <sub><b>Paty1412</b></sub>
+      </a>
+      <br />
+      <sub>Desenvolvedora Frontend</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/edsonsantana1">
+        <img src="https://github.com/edsonsantana1.png" width="100px;" alt="edsonsantana1"/>
+        <br />
+        <sub><b>edsonsantana1</b></sub>
+      </a>
+      <br />
+      <sub>Desenvolvedor Fullstack</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Juliana162702">
+        <img src="https://github.com/Juliana162702.png" width="100px;" alt="Juliana162702"/>
+        <br />
+        <sub><b>Juliana162702</b></sub>
+      </a>
+      <br />
+      <sub>Desenvolvedora Fullstack</sub>
+    </td>
+  </tr>
+</table>
+
+---
